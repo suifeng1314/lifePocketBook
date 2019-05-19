@@ -108,7 +108,7 @@ public class BaseResponse {
 	 */
 	public static Object response(Object obj){
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("code", "0");
+		map.put("code", "200");
 		map.put("msg", "成功");
 		map.put("data", format(obj));
 		JSONObject json = new JSONObject(map);

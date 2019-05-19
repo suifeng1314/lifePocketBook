@@ -4,7 +4,7 @@ package com.cashbook.util.base;
  * Created by aden on 2017/12/22.
  */
 public enum ResultCode {
-    SUCCESS("成功", "0"),
+    SUCCESS("成功", "200"),
     TIME_OUT("登录过期，请重新登录", "1"),
     FAIL("失败", "-1"),
     CODE_ERROR("验证码错误","-2"),
