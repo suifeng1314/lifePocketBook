@@ -1,0 +1,9 @@
+<template name="indexTemplate">
+  <view>
+    <view>
+      <view class="userName">{{userName}}</view>
+      <image src="{{userImg}}" mode="scaleToFill" class="userImg"/>
+    </view>
+    <button type="default" onTap="getAuthCode" class="loginBtn">授权登录</button>
+  </view>
+</template>

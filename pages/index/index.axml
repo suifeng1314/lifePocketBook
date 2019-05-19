@@ -1,0 +1,5 @@
+<view>
+  <view>{{name}}</view>
+  <import src="../template/extraIndex.axml"/>
+  <template is="indexTemplate" data="{{userName:name,userImg:avatar}}"></template>
+</view>   
