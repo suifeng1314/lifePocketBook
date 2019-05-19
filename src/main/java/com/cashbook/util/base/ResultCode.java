@@ -1,4 +1,4 @@
-package com.cashbook.util;
+package com.cashbook.util.base;
 
 /**
  * Created by aden on 2017/12/22.

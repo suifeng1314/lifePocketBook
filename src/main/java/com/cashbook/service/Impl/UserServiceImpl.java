@@ -2,6 +2,8 @@ package com.cashbook.service.Impl;
 
 import com.cashbook.model.User;
 import com.cashbook.service.UserService;
+import com.cashbook.util.redis.Redis;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -15,7 +17,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
+    private Redis redis;
     @Override
     public List<User> selectUserList() {
         List<User> list = new ArrayList<>();
@@ -23,7 +26,7 @@ public class UserServiceImpl implements UserService {
         user.setId((long) 1);
         user.setName("lomgtap");
         list.add(user);
-
+        redis.setEx(user.getId(),user.getId(), (long) 3600);
         if (!CollectionUtils.isEmpty(list)){
             return list;
         }

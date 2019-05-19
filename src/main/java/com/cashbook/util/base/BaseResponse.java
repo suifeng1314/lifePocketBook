@@ -1,4 +1,4 @@
-package com.cashbook.util;
+package com.cashbook.util.base;
 
 import com.alibaba.fastjson.JSONObject;
 

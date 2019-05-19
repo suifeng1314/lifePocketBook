@@ -8,8 +8,10 @@ import com.alipay.api.request.AlipayUserInfoShareRequest;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.alipay.api.response.AlipayUserInfoShareResponse;
 import com.cashbook.service.AliPayService;
+import com.cashbook.util.redis.Redis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class AliPayServiceImpl implements AliPayService {
     private String privateKey;
     @Value("${alipay.publicKey}")
     private String publicKey;
-
+    @Autowired
+    private Redis redis;
 
     @Override
     public String getAccessToken(String code) throws AlipayApiException {
@@ -44,6 +47,7 @@ public class AliPayServiceImpl implements AliPayService {
         if (response.isSuccess()){
             System.out.println(11111);
             logger.info("调用成功");
+            redis.setEx(response.getUserId(),response.getAccessToken(), (long) 3600);
             return response.getAccessToken();
         }
         System.out.println(11111+"~~~~~~~~~~");
