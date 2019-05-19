@@ -1,12 +1,22 @@
 package com.cashbook.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.cashbook.form.AccessTokenForm;
+import com.cashbook.form.UserInfoForm;
 import com.cashbook.model.User;
 import com.cashbook.service.AliPayService;
 import com.cashbook.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -15,6 +25,8 @@ import java.util.List;
  * @Description:
  */
 @RestController
+@Slf4j
+@Api(value = "用户信息Api文档")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
@@ -22,9 +34,42 @@ public class UserController {
     @Autowired
     private AliPayService aliPayService;
 
+    @ApiOperation(value = "test",httpMethod = "POST")
     @RequestMapping("/list")
     public Object getUsers(){
         List<User> list = userService.selectUserList();
         return list;
+    }
+    @ApiOperation(value = "获取AccessToken",httpMethod = "POST")
+    @ApiResponses(
+            @ApiResponse(code = 200 , message = "code:状态码,msg:提示信息,data:数据")
+    )
+    @RequestMapping("/getAccessToken")
+    public String getAccessToken(@RequestBody @Valid AccessTokenForm accessTokenForm){
+        String token = null;
+        String city = null;
+        try {
+            token = aliPayService.getAccessToken(accessTokenForm.getAuthCode());
+            System.out.println("token:" + token);
+//            city = aliPayService.getUserInfo(token);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    @ApiOperation(value = "获取用户信息",httpMethod = "POST")
+//    @ApiResponses(
+//            @ApiResponse(code = 200 , message = "code:状态码,msg:提示信息,data:数据")
+//    )
+    @RequestMapping("/info")
+    public String getUserInfo(@RequestBody @Valid UserInfoForm userInfoForm){
+        String city = null;
+        try {
+            city = aliPayService.getUserInfo(userInfoForm.getToken());
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return city;
     }
 }
