@@ -16,7 +16,7 @@ public class LogConfig {
     private static final Logger LOG = LoggerFactory.getLogger(LogConfig.class);
     @Bean
     public Person logMethod() {
-        LOG.info("==========print log==========");
+        LOG.info("==========日志开始==========");
         return new Person();
     }
 }
