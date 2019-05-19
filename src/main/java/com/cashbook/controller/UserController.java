@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ import java.util.List;
 @Api(value = "用户信息Api文档")
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
     @Autowired
@@ -38,6 +41,7 @@ public class UserController {
     @RequestMapping("/list")
     public Object getUsers(){
         List<User> list = userService.selectUserList();
+        logger.info("list:"+list);
         return list;
     }
     @ApiOperation(value = "获取AccessToken",httpMethod = "POST")

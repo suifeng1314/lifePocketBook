@@ -56,14 +56,10 @@ public class AliPayServiceImpl implements AliPayService {
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",appId,privateKey,"json","GBK",publicKey,"RSA2");
         AlipayUserInfoShareRequest request = new AlipayUserInfoShareRequest();
         AlipayUserInfoShareResponse response = alipayClient.execute(request,token);
-        System.out.println(response);
         if(response.isSuccess()){
-            System.out.println(22222);
             System.out.println("调用成功");
             return response.getCity();
         }
-        System.out.println(222222+"~~~~~~~~~");
-        System.out.println("调用失败");
         return null;
     }
 }
