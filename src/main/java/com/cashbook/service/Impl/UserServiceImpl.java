@@ -1,5 +1,8 @@
 package com.cashbook.service.Impl;
 
+import com.cashbook.dao.AppUserMapper;
+import com.cashbook.model.AppUser;
+import com.cashbook.model.AppUserExample;
 import com.cashbook.model.User;
 import com.cashbook.service.UserService;
 import com.cashbook.util.redis.Redis;
@@ -19,14 +22,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private Redis redis;
+    @Autowired
+    private AppUserMapper appUserMapper;
     @Override
-    public List<User> selectUserList() {
-        List<User> list = new ArrayList<>();
-        User user = new User();
-        user.setId((long) 1);
-        user.setName("lomgtap");
-        list.add(user);
-        redis.setEx(user.getId(),user.getId(), (long) 3600);
+    public List<AppUser> selectUserList() {
+        AppUserExample appUserExample = new AppUserExample();
+
+        List<AppUser> list = appUserMapper.selectByExample(appUserExample);
+
         if (!CollectionUtils.isEmpty(list)){
             return list;
         }

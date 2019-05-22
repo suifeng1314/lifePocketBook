@@ -3,9 +3,10 @@ package com.cashbook.controller;
 import com.alipay.api.AlipayApiException;
 import com.cashbook.form.AccessTokenForm;
 import com.cashbook.form.UserInfoForm;
-import com.cashbook.model.User;
+import com.cashbook.model.AppUser;
 import com.cashbook.service.AliPayService;
 import com.cashbook.service.UserService;
+import com.cashbook.util.base.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,10 +41,11 @@ public class UserController {
 
     @ApiOperation(value = "test",httpMethod = "POST")
     @RequestMapping("/list")
-    public Object getUsers(){
-        List<User> list = userService.selectUserList();
-        logger.info("list:"+list);
-        return list;
+    public Object getUsers(@RequestHeader String param){
+        System.out.println(param+"");
+        List<AppUser> list = userService.selectUserList();
+
+        return BaseResponse.response(list);
     }
     @ApiOperation(value = "获取AccessToken",httpMethod = "POST")
     @ApiResponses(

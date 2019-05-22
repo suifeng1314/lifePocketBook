@@ -1,6 +1,6 @@
 package com.cashbook.service;
 
-import com.cashbook.model.User;
+import com.cashbook.model.AppUser;
 
 import java.util.List;
 
@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<User> selectUserList();
+    List<AppUser> selectUserList();
 
 }
