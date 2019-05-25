@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cashbook.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.cashbook.model.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="age" property="age" jdbcType="TINYINT" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="card_type" property="cardType" jdbcType="TINYINT" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="person_desc" property="personDesc" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="client_id" property="clientId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="mp_open_id" property="mpOpenId" jdbcType="VARCHAR" />
+    <result column="platform_type" property="platformType" jdbcType="TINYINT" />
+    <result column="mp_version" property="mpVersion" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="last_modify_user_id" property="lastModifyUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, nick_name, gender, age, birthday, card_type, card_no, mobile, password, 
+    salt, email, img_url, person_desc, memo, client_id, status, open_id, union_id, mp_open_id, 
+    platform_type, mp_version, last_login_time, create_time, create_user_id, last_modify_time, 
+    last_modify_user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cashbook.model.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cb_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cb_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cashbook.model.UserExample" >
+    delete from cb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cashbook.model.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cb_user (id, name, nick_name, 
+      gender, age, birthday, 
+      card_type, card_no, mobile, 
+      password, salt, email, 
+      img_url, person_desc, memo, 
+      client_id, status, open_id, 
+      union_id, mp_open_id, platform_type, 
+      mp_version, last_login_time, create_time, 
+      create_user_id, last_modify_time, last_modify_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{age,jdbcType=TINYINT}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{cardType,jdbcType=TINYINT}, #{cardNo,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{personDesc,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{clientId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{openId,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{mpOpenId,jdbcType=VARCHAR}, #{platformType,jdbcType=TINYINT}, 
+      #{mpVersion,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{lastModifyTime,jdbcType=TIMESTAMP}, #{lastModifyUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cashbook.model.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cb_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="imgUrl != null" >
+        img_url,
+      </if>
+      <if test="personDesc != null" >
+        person_desc,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="clientId != null" >
+        client_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="unionId != null" >
+        union_id,
+      </if>
+      <if test="mpOpenId != null" >
+        mp_open_id,
+      </if>
+      <if test="platformType != null" >
+        platform_type,
+      </if>
+      <if test="mpVersion != null" >
+        mp_version,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time,
+      </if>
+      <if test="lastModifyUserId != null" >
+        last_modify_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=BIGINT},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="personDesc != null" >
+        #{personDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mpOpenId != null" >
+        #{mpOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformType != null" >
+        #{platformType,jdbcType=TINYINT},
+      </if>
+      <if test="mpVersion != null" >
+        #{mpVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="lastModifyTime != null" >
+        #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyUserId != null" >
+        #{lastModifyUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cashbook.model.UserExample" resultType="java.lang.Integer" >
+    select count(*) from cb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cb_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=TINYINT},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cardType != null" >
+        card_type = #{record.cardType,jdbcType=TINYINT},
+      </if>
+      <if test="record.cardNo != null" >
+        card_no = #{record.cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgUrl != null" >
+        img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personDesc != null" >
+        person_desc = #{record.personDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memo != null" >
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientId != null" >
+        client_id = #{record.clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.openId != null" >
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null" >
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mpOpenId != null" >
+        mp_open_id = #{record.mpOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformType != null" >
+        platform_type = #{record.platformType,jdbcType=TINYINT},
+      </if>
+      <if test="record.mpVersion != null" >
+        mp_version = #{record.mpVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastModifyTime != null" >
+        last_modify_time = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastModifyUserId != null" >
+        last_modify_user_id = #{record.lastModifyUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cb_user
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      age = #{record.age,jdbcType=TINYINT},
+      birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      card_type = #{record.cardType,jdbcType=TINYINT},
+      card_no = #{record.cardNo,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      salt = #{record.salt,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      person_desc = #{record.personDesc,jdbcType=VARCHAR},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      client_id = #{record.clientId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      mp_open_id = #{record.mpOpenId,jdbcType=VARCHAR},
+      platform_type = #{record.platformType,jdbcType=TINYINT},
+      mp_version = #{record.mpVersion,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      last_modify_time = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+      last_modify_user_id = #{record.lastModifyUserId,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cashbook.model.User" >
+    update cb_user
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="personDesc != null" >
+        person_desc = #{personDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null" >
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="mpOpenId != null" >
+        mp_open_id = #{mpOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformType != null" >
+        platform_type = #{platformType,jdbcType=TINYINT},
+      </if>
+      <if test="mpVersion != null" >
+        mp_version = #{mpVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyUserId != null" >
+        last_modify_user_id = #{lastModifyUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cashbook.model.User" >
+    update cb_user
+    set name = #{name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      age = #{age,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      card_type = #{cardType,jdbcType=TINYINT},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      person_desc = #{personDesc,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      mp_open_id = #{mpOpenId,jdbcType=VARCHAR},
+      platform_type = #{platformType,jdbcType=TINYINT},
+      mp_version = #{mpVersion,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      last_modify_user_id = #{lastModifyUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

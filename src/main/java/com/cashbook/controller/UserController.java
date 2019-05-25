@@ -4,9 +4,11 @@ import com.alipay.api.AlipayApiException;
 import com.cashbook.form.AccessTokenForm;
 import com.cashbook.form.UserInfoForm;
 import com.cashbook.model.AppUser;
+import com.cashbook.model.User;
 import com.cashbook.service.AliPayService;
 import com.cashbook.service.UserService;
 import com.cashbook.util.base.BaseResponse;
+import com.cashbook.util.base.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -78,5 +80,18 @@ public class UserController {
             e.printStackTrace();
         }
         return city;
+    }
+
+    @ApiOperation(value = "insert",httpMethod = "POST")
+    @RequestMapping("/insert")
+    public Object insertUser(@RequestBody User user){
+        System.out.println(user+"");
+
+        Boolean flag = userService.insertUser(user);
+        if (flag){
+            return BaseResponse.response(ResultCode.SUCCESS.getCode());
+        }
+
+        return BaseResponse.response(ResultCode.FAIL.getCode());
     }
 }

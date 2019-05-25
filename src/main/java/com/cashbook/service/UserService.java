@@ -1,6 +1,7 @@
 package com.cashbook.service;
 
 import com.cashbook.model.AppUser;
+import com.cashbook.model.User;
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ import java.util.List;
 public interface UserService {
 
     List<AppUser> selectUserList();
+
+    Boolean insertUser(User user);
 
 }
